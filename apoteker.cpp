@@ -141,6 +141,23 @@ void exchangeSortNama(Obat *data, int n) {
     }
 }
 
+// Bubble Sort berdasarkan stok (naik) agar mudah melihat obat dengan stok menipis
+void bubbleSortStokNaik(Obat *data, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        bool adaTukar = false;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (data[j].stok > data[j + 1].stok) {
+                tukarObat(data[j], data[j + 1]);
+                adaTukar = true;
+            }
+        }
+
+        if (!adaTukar) {
+            break;
+        }
+    }
+}
+
 // Insertion Sort berdasarkan nama
 void insertionSortNama(Obat *data, int n) {
     for (int i = 1; i < n; i++) {
@@ -455,57 +472,63 @@ void menuSorting(Obat *dataAsli, int n) {
     int pilihanSort;
     do {
         cout << "\n=== MENU SORTING ===\n";
-        cout << "1. Exchange Sort (Nama)\n";
-        cout << "2. Insertion Sort (Nama)\n";
-        cout << "3. Shell Sort (Nama)\n";
-        cout << "4. Merge Sort (Nama)\n";
-        cout << "5. Quick Sort (Nama)\n";
-        cout << "6. Heap Sort (Nama)\n";
-        cout << "7. Tree Sort (Nama)\n";
-        cout << "8. Radix Sort (Harga)\n";
+        cout << "1. Bubble Sort (Stok Naik - cek stok menipis)\n";
+        cout << "2. Exchange Sort (Nama)\n";
+        cout << "3. Insertion Sort (Nama)\n";
+        cout << "4. Shell Sort (Nama)\n";
+        cout << "5. Merge Sort (Nama)\n";
+        cout << "6. Quick Sort (Nama)\n";
+        cout << "7. Heap Sort (Nama)\n";
+        cout << "8. Tree Sort (Nama)\n";
+        cout << "9. Radix Sort (Harga)\n";
         cout << "0. Kembali\n";
-        pilihanSort = bacaIntDenganBatas("Pilih metode sorting: ", 0, 8);
+        pilihanSort = bacaIntDenganBatas("Pilih metode sorting: ", 0, 9);
 
         Obat temp[100];
         salinData(dataAsli, temp, n);
 
         switch (pilihanSort) {
             case 1:
+                bubbleSortStokNaik(temp, n);
+                cout << "\nHasil Bubble Sort (Stok Naik):\n";
+                tampilData(temp, n);
+                break;
+            case 2:
                 exchangeSortNama(temp, n);
                 cout << "\nHasil Exchange Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 2:
+            case 3:
                 insertionSortNama(temp, n);
                 cout << "\nHasil Insertion Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 3:
+            case 4:
                 shellSortNama(temp, n);
                 cout << "\nHasil Shell Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 4:
+            case 5:
                 mergeSortNama(temp, n);
                 cout << "\nHasil Merge Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 5:
+            case 6:
                 quickSortNama(temp, 0, n - 1);
                 cout << "\nHasil Quick Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 6:
+            case 7:
                 heapSortNama(temp, n);
                 cout << "\nHasil Heap Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 7:
+            case 8:
                 treeSortNama(temp, n);
                 cout << "\nHasil Tree Sort (Nama):\n";
                 tampilData(temp, n);
                 break;
-            case 8:
+            case 9:
                 radixSortHarga(temp, n);
                 cout << "\nHasil Radix Sort (Harga):\n";
                 tampilData(temp, n);
