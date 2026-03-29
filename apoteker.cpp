@@ -158,6 +158,21 @@ void bubbleSortStokNaik(Obat *data, int n) {
     }
 }
 
+// Selection Sort berdasarkan nama
+void selectionSortNama(Obat *data, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int idxMin = i;
+        for (int j = i + 1; j < n; j++) {
+            if (data[j].nama < data[idxMin].nama) {
+                idxMin = j;
+            }
+        }
+        if (idxMin != i) {
+            tukarObat(data[i], data[idxMin]);
+        }
+    }
+}
+
 // Insertion Sort berdasarkan nama
 void insertionSortNama(Obat *data, int n) {
     for (int i = 1; i < n; i++) {
@@ -389,6 +404,15 @@ int binarySearchNama(Obat *data, int n, string target) {
     return -1;
 }
 
+int sequentialSearchNama(Obat *data, int n, string target) {
+    for (int i = 0; i < n; i++) {
+        if (data[i].nama == target) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 int interpolationSearchHarga(Obat *data, int n, int target) {
     int low = 0;
     int high = n - 1;
@@ -481,8 +505,9 @@ void menuSorting(Obat *dataAsli, int n) {
         cout << "7. Heap Sort (Nama)\n";
         cout << "8. Tree Sort (Nama)\n";
         cout << "9. Radix Sort (Harga)\n";
+        cout << "10. Selection Sort (Nama)\n";
         cout << "0. Kembali\n";
-        pilihanSort = bacaIntDenganBatas("Pilih metode sorting: ", 0, 9);
+        pilihanSort = bacaIntDenganBatas("Pilih metode sorting: ", 0, 10);
 
         Obat temp[100];
         salinData(dataAsli, temp, n);
@@ -533,6 +558,11 @@ void menuSorting(Obat *dataAsli, int n) {
                 cout << "\nHasil Radix Sort (Harga):\n";
                 tampilData(temp, n);
                 break;
+            case 10:
+                selectionSortNama(temp, n);
+                cout << "\nHasil Selection Sort (Nama):\n";
+                tampilData(temp, n);
+                break;
             case 0:
                 cout << "Kembali ke menu utama.\n";
                 break;
@@ -554,8 +584,9 @@ void menuSearching(Obat *dataAsli, int n) {
         cout << "1. Binary Search (Nama)\n";
         cout << "2. Interpolation Search (Harga)\n";
         cout << "3. Fibonacci Search (Harga)\n";
+        cout << "4. Sequential Search (Nama)\n";
         cout << "0. Kembali\n";
-        pilihanCari = bacaIntDenganBatas("Pilih metode searching: ", 0, 3);
+        pilihanCari = bacaIntDenganBatas("Pilih metode searching: ", 0, 4);
 
         Obat temp[100];
         salinData(dataAsli, temp, n);
@@ -593,6 +624,19 @@ void menuSearching(Obat *dataAsli, int n) {
                 int idx = fibonacciSearchHarga(temp, n, targetHarga);
                 if (idx != -1) {
                     cout << "Data ditemukan (Fibonacci Search):\n";
+                    tampilSatuData(temp[idx]);
+                } else {
+                    cout << "Data tidak ditemukan.\n";
+                }
+                break;
+            }
+            case 4: {
+                string targetNama;
+                cout << "Nama obat yang dicari: ";
+                getline(cin, targetNama);
+                int idx = sequentialSearchNama(temp, n, targetNama);
+                if (idx != -1) {
+                    cout << "Data ditemukan (Sequential Search):\n";
                     tampilSatuData(temp[idx]);
                 } else {
                     cout << "Data tidak ditemukan.\n";
